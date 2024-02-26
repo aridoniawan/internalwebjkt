@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Kostcontroller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Postcontroller;
 use App\Http\Controllers\MeetingRoomController;
+use App\Http\Controllers\Post2controller;
 use App\Http\Controllers\Roomcontroller;
 use App\Http\Controllers\ViewRoomController;
 
@@ -35,6 +37,15 @@ Route::get('posts/{id}/edit', [Postcontroller::class, 'edit']);
 Route::get('posts/{id}', [Postcontroller::class, 'show']);
 Route::patch('posts/{id}', [Postcontroller::class, 'update']);
 Route::delete('posts/{id}', [Postcontroller::class, 'destroy']);
+
+// Route::get('posts2', [Post2controller::class, 'index']);
+Route::get('kosts/create', [Kostcontroller::class, 'create']);
+Route::post('kosts', [Kostcontroller::class, 'store']);
+Route::get('kosts/viewedit', [Kostcontroller::class, 'viewedit']);
+Route::get('kosts/{id}/edit', [Kostcontroller::class, 'edit']);
+Route::get('kosts/{id}', [Kostcontroller::class, 'show']);
+Route::patch('kosts/{id}', [Kostcontroller::class, 'update']);
+Route::delete('kosts/{id}', [Kostcontroller::class, 'destroy']);
 
 //booking ruang meeting
 // Menampilkan daftar ruang meeting

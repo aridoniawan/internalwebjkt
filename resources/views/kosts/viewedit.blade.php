@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>internalwebjkt</title>
+    <title>internalwebjkt:EDIT</title>
     <link href="{{asset('bootstrap5/css/bootstrap.min.css')}}" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/sidebar.css')}}">
+    
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example">
@@ -54,12 +55,11 @@
                         </a>
                       </li>
                       <li>
-                        <a href="{{url("rooms")}}" class="nav-link link-dark">
+                        <a href="{{url("../rooms")}}" class="nav-link link-dark">
                           Lihat Meeting
                         </a>
                       </li>
                     </ul>
-                    <a class="lve" style="color: red;">Test</a>
                     <hr>
                   </div>
             </div>
@@ -67,64 +67,16 @@
           <!-- Content -->
           <div class="col-9">
             <!-- Tabel -->
-            <h2 class="text-center mt-2 textS">Outcoming Meeting</h2>
-            <a href="{{url("posts/create")}}" class="btn btn-secondary shadow-sm ms-4">+ Add Request</a>
-            <a href="{{url("posts/viewedit")}}" class="btn btn-success">Edit</a>
-            @if(session('success'))
-            <div class="alert alert-success mt-2 alert-dismissible fade show" role="alert">
-              {{ session('success') }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if(session('successd'))
-            <div class="alert alert-danger mt-2 alert-dismissible fade show" role="alert">
-              {{ session('successd') }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
+            <h2 class="text-center">Outcoming Meeting</h2>
+            <a href="{{url("kosts/create")}}" class="btn btn-secondary shadow-sm ms-4">+ Add Request</a>
             <div class="justify-content-md-center">
             </div>
             <div class="table-container p-3">
               <table class="table table-bordered shadow">
-                <thead class="table-primary">
+                <thead class="table-dark">
                   <tr>
-                    <th scope="col" style="text-decoration: none;">@sortablelink('tanggal', 'Tanggal')</th>
-                    <th scope="col">Jam</th>
-                    <th scope="col">Aplikasi</th>
-                    <th scope="col">Agenda</th>
-                    <th scope="col">Request By</th>
-                    <th scope="col">Link Meeting</th>
-                    <th scope="col">Ruang Meeting</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($posts as $post)                        
-                  <tr>
-                    <td>{{date('d/M/Y', strtotime($post->tanggal))}}</td>
-                    <td>{{$post->jam}}</td>
-                    <td>{{$post->aplikasi}}</td>
-                    <td>{{$post->agenda}}</td>
-                    <td>{{$post->reqby}}</td>
-                    <td class="text-break" style="font-size: 12px"><a href="{{$post->link}}">{{$post->link}}</a></td>
-                    <td>{{$post->rmeeting}}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-              <div class="pull-right">
-                {{-- {{ $posts->links() }} --}}
-                {!! $posts->appends(Request::except('page'))->render() !!}
-              </div>
-            </div>
-            <h2 class="text-center">Fix time Meeting</h2>
-            <a href="{{url("kosts/create")}}" class="btn btn-secondary shadow-sm ms-4">+ Add Request</a>
-            <a href="{{url("kosts/viewedit")}}" class="btn btn-success">Edit</a>
-            <div class="table-container p-3">
-              <table class="table table-bordered shadow">
-                <thead class="table-primary">
-                  <tr>
-                    <th scope="col" style="text-decoration: none;">@sortablelink('tanggal', 'Tanggal')</th>
-                    <th scope="col">Jam</th>
+                    <th scope="col">Action</th>
                     <th scope="col">Aplikasi</th>
                     <th scope="col">Agenda</th>
                     <th scope="col">Request By</th>
@@ -135,8 +87,24 @@
                 <tbody>
                   @foreach ($kosts as $post)                        
                   <tr>
-                    <td>{{$post->tanggal}}</td>
-                    <td>{{$post->jam}}</td>
+                    <td>
+                      <a type="button" class="btn btn-primary"
+                        style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: .70rem;" href="{{url("kosts/$post->id/edit")}}">
+                        Edit
+                      </a>
+                      <a type="button" class="btn btn-success"
+                      style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: .70rem;" href="{{url("kosts/$post->id")}}">
+                      Detail
+                    </a>
+                      <form action="{{url("kosts/$post->id")}}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-danger"
+                          style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: .70rem;">
+                          Delete
+                        </button>
+                      </form>
+                    </td>
                     <td>{{$post->aplikasi}}</td>
                     <td>{{$post->agenda}}</td>
                     <td>{{$post->reqby}}</td>
@@ -146,10 +114,6 @@
                   @endforeach
                 </tbody>
               </table>
-              <div class="pull-right">
-                {{-- {{ $posts->links() }} --}}
-                {!! $kosts->appends(Request::except('page'))->render() !!}
-              </div>
             </div>
           </div>
         </div>

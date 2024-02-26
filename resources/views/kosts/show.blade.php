@@ -6,7 +6,28 @@
     <title>internalwebjkt:EDIT</title>
     <link href="{{asset('bootstrap5/css/bootstrap.min.css')}}" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/sidebar.css')}}">
-    
+    <style>
+      .calendar {
+          width: 100%;
+          max-width: 800px;
+          margin: auto;
+          margin-top: 20px;
+      }
+
+      .day {
+          border: 1px solid #ddd;
+          padding: 10px;
+          height: 150px;
+      }
+
+      .event {
+          background-color: #007bff;
+          color: #fff;
+          padding: 5px;
+          margin-bottom: 5px;
+          border-radius: 3px;
+      }
+  </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example">
@@ -55,7 +76,7 @@
                         </a>
                       </li>
                       <li>
-                        <a href="{{url("../rooms")}}" class="nav-link link-dark">
+                        <a href="#" class="nav-link link-dark">
                           Lihat Meeting
                         </a>
                       </li>
@@ -68,53 +89,41 @@
           <div class="col-9">
             <!-- Tabel -->
 
-            <h2 class="text-center">Outcoming Meeting</h2>
-            <a href="{{url("kosts/create")}}" class="btn btn-secondary shadow-sm ms-4">+ Add Request</a>
-            <div class="justify-content-md-center">
+            <h2 class="text-center">Detail Meeting</h2>
+            <div class="card border-primary mb-3" style="max-width: 18rem;">
+              <div class="card-header">Detail Link</div>
+              <div class="card-body text-primary">
+                <h5 class="card-title">{{$kost->detail}}</h5>
+              </div>
             </div>
-            <div class="table-container p-3">
-              <table class="table table-bordered shadow">
-                <thead class="table-dark">
-                  <tr>
-                    <th scope="col">Action</th>
-                    <th scope="col">Aplikasi</th>
-                    <th scope="col">Agenda</th>
-                    <th scope="col">Request By</th>
-                    <th scope="col">Link Meeting</th>
-                    <th scope="col">Ruang Meeting</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($posts as $post)                        
-                  <tr>
-                    <td>
-                      <a type="button" class="btn btn-primary"
-                        style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: .70rem;" href="{{url("posts/$post->id/edit")}}">
-                        Edit
-                      </a>
-                      <a type="button" class="btn btn-success"
-                      style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: .70rem;" href="{{url("posts/$post->id")}}">
-                      Detail
-                    </a>
-                      <form action="{{url("posts/$post->id")}}" method="post">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-danger"
-                          style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: .70rem;">
-                          Delete
-                        </button>
-                      </form>
-                    </td>
-                    <td>{{$post->aplikasi}}</td>
-                    <td>{{$post->agenda}}</td>
-                    <td>{{$post->reqby}}</td>
-                    <td class="text-break" style="font-size: 12px"><a href="{{$post->link}}">{{$post->link}}</a></td>
-                    <td>{{$post->rmeeting}}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
+            <a href="{{url("kosts/viewedit")}}">< BACK</a>
+            <div class="container">
+              <h2 class="mt-4 mb-4">Ruang Meeting</h2>
+              <div class="calendar row row-cols-1 row-cols-md-2 g-4">
+                  <!-- Loop through each day in the month -->
+                  {{-- @for ($day = 1; $day <= $lastDayOfMonth; $day++) --}}
+                      <div class="day col">
+                          <h5 class="mb-3">{{$kost->agenda}}</h5>
+                          <h6 class="mb-2">{{$kost->rmeeting}}</h6>
+                          <!-- Loop through events for the day -->
+                          {{-- @foreach ($events as $event) --}}
+                              {{-- @if ($event['day'] == $day) --}}
+
+                                  <div class="event">
+                                      <strong>Tanggal :{{$kost->tanggal}}</strong><br>
+                                      Waktu : {{$kost->jam}}
+                                      
+                                  </div>
+                              {{-- @endif --}}
+                          {{-- @endforeach --}}
+                      </div>
+                      <!-- Add a new row for every 4 days -->
+                      {{-- @if ($day % 4 == 0) --}}
+                          <div class="w-100"></div>
+                      {{-- @endif --}}
+                  {{-- @endfor --}}
+              </div>
+          </div>
           </div>
         </div>
       </div>

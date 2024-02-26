@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kost;
-use App\Models\Post;
-use App\Models\Post2;
 use Illuminate\Http\Request;
-use Kyslik\ColumnSortable\Sortable;
 
-class Postcontroller extends Controller
+class Kostcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,27 +14,7 @@ class Postcontroller extends Controller
      */
     public function index()
     {
-        $posts = Post::sortable()->paginate(10);
-        // $view_data = [
-        //     'posts' => $posts
-        // ];
-        $kosts = Kost::sortable()->paginate(10);
-
-        return view('posts.index', compact('posts'), compact('kosts'));
-    }
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function viewedit()
-    {
-        $posts = Post::get();
-        $view_data = [
-            'posts' => $posts
-        ];
-
-        return view('posts.viewedit', $view_data);
+        //
     }
 
     /**
@@ -47,7 +24,7 @@ class Postcontroller extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('kosts.create');
     }
 
     /**
@@ -58,7 +35,6 @@ class Postcontroller extends Controller
      */
     public function store(Request $request)
     {
-        
         $tanggal = $request->input('tanggal');
         $jam = $request->input('jam');
         $email = $request->input('email');
@@ -69,7 +45,7 @@ class Postcontroller extends Controller
         $link = $request->input('link', 'Wait From IT');
         $rmeeting = $request->input('rmeeting');
 
-        Post::insert([
+        Kost::insert([
             'tanggal' => $tanggal,
             'jam' => $jam,
             'email' => $email,
@@ -82,7 +58,6 @@ class Postcontroller extends Controller
         ]);
 
         return redirect('posts')->with('success', 'Link Meeting berhasil dipesan.');
-        
     }
 
     /**
@@ -92,15 +67,15 @@ class Postcontroller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
-        $post = Post::where('id', $id)
-                ->first();
-        
-        $view_data = [
-            'post' => $post
-        ];
+    {
+        $kost = Kost::where('id', $id)
+        ->first();
 
-        return view('posts.show', $view_data);
+        // $view_data = [
+        //     'post' => $post
+        // ];
+
+        return view('kosts.show', compact('kost'));
     }
 
     /**
@@ -109,16 +84,32 @@ class Postcontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function viewedit()
+    {
+        $kosts = Kost::get();
+        // $view_data = [
+        //     'posts' => $posts
+        // ];
+
+        return view('kosts.viewedit', compact('kosts'));
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        $post = Post::where('id', $id)
+        $Kost = Kost::where('id', $id)
                 ->first();
-        
+
         $view_data = [
-            'post' => $post
+            'kost' => $Kost
         ];
 
-        return view('posts.edit', $view_data);
+        return view('kosts.edit', $view_data);
     }
 
     /**
@@ -140,7 +131,7 @@ class Postcontroller extends Controller
         $link = $request->input('link', 'Wait From IT');
         $rmeeting = $request->input('rmeeting');
 
-        Post::where('id', $id)
+        Kost::where('id', $id)
             ->update([
                 'tanggal' => $tanggal,
                 'jam' => $jam,
@@ -164,7 +155,7 @@ class Postcontroller extends Controller
      */
     public function destroy($id)
     {
-        Post::where('id', $id)
+        Kost::where('id', $id)
         ->delete();
 
         return redirect('posts')->with('successd', 'Link Meeting berhasil di hapus.');
