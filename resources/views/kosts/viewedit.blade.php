@@ -70,6 +70,7 @@
 
             <h2 class="text-center">Outcoming Meeting</h2>
             <a href="{{url("kosts/create")}}" class="btn btn-secondary shadow-sm ms-4">+ Add Request</a>
+            <a href="{{url('logout')}}" class="btn btn-outline-dark shadow-sm ms-1">Logout</a>
             <div class="justify-content-md-center">
             </div>
             <div class="table-container p-3">

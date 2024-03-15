@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Post2;
 use Illuminate\Http\Request;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\Auth;
 
 class Postcontroller extends Controller
 {
@@ -17,11 +18,11 @@ class Postcontroller extends Controller
      */
     public function index()
     {
-        $posts = Post::sortable()->paginate(10);
+        $posts = Post::sortable()->orderBy('id', 'desc')->paginate(10);
         // $view_data = [
         //     'posts' => $posts
         // ];
-        $kosts = Kost::sortable()->paginate(10);
+        $kosts = Kost::sortable()->orderBy('id', 'desc')->paginate(10);
 
         return view('posts.index', compact('posts'), compact('kosts'));
     }
@@ -32,6 +33,11 @@ class Postcontroller extends Controller
      */
     public function viewedit()
     {
+
+        if(!Auth::check())
+        {
+            return redirect('login');
+        }
         $posts = Post::get();
         $view_data = [
             'posts' => $posts

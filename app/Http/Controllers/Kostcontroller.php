@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Kostcontroller extends Controller
 {
@@ -86,6 +87,11 @@ class Kostcontroller extends Controller
      */
     public function viewedit()
     {
+        
+        if(!Auth::check())
+        {
+            return redirect('login');
+        }
         $kosts = Kost::get();
         // $view_data = [
         //     'posts' => $posts

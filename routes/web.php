@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Kostcontroller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Kostcontroller;
 use App\Http\Controllers\Postcontroller;
-use App\Http\Controllers\MeetingRoomController;
-use App\Http\Controllers\Post2controller;
 use App\Http\Controllers\Roomcontroller;
+use App\Http\Controllers\Post2controller;
 use App\Http\Controllers\ViewRoomController;
+use App\Http\Controllers\MeetingRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,14 @@ Route::get('posts/{id}/edit', [Postcontroller::class, 'edit']);
 Route::get('posts/{id}', [Postcontroller::class, 'show']);
 Route::patch('posts/{id}', [Postcontroller::class, 'update']);
 Route::delete('posts/{id}', [Postcontroller::class, 'destroy']);
+
+Route::get('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'authenticate']);
+Route::post('login', [AuthController::class, 'authenticate2']);
+Route::get('logout', [AuthController::class, 'logout']);
+Route::get('register', [AuthController::class, 'register_form']);
+Route::post('register', [AuthController::class, 'register']);
+
 
 // Route::get('posts2', [Post2controller::class, 'index']);
 Route::get('kosts/create', [Kostcontroller::class, 'create']);
